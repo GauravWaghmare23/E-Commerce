@@ -4,10 +4,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/src/context/userContext";
 
-function LoginPage() {
+function SignupPage() {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    role: "user",
   });
 
   const { setUser, user } = useUser();
@@ -24,34 +26,33 @@ function LoginPage() {
     }
   }, [user, router]);
 
-  // Handle input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle input/select changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission and login
+  // Handle form submission and signup
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/user/login", formData, {
+      const res = await axios.post("/api/user/signup", formData, {
         withCredentials: true,
       });
 
-      const { user, token } = res.data;
+      // Set user context and token in local storage
+      setUser(res.data.newUser);
+      localStorage.setItem("token", res.data.token);
 
-      setUser(user);
-      localStorage.setItem("token", token);
-
-      // Redirect after successful login
-      if (user.role === "admin") {
+      // Redirect after successful signup
+      if (res.data.newUser.role === "admin") {
         router.push("/admin");
       } else {
         router.push("/allProducts");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      // NOTE: In a real app, you should display an error message to the user here.
+      console.error("Signup error:", error);
+      alert("Signup failed. Please try again.");
     }
   };
 
@@ -65,11 +66,29 @@ function LoginPage() {
         >
           {/* Header */}
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-6">
-            Sign In
+            Create Account
           </h2>
 
           {/* Input Fields */}
           <div className="space-y-4">
+            {/* Name Field */}
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                // Modern Input Style
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
+                placeholder="John Doe"
+              />
+            </div>
+
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -82,7 +101,7 @@ function LoginPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                // Modern Input Style: Border, rounded, focus ring
+                // Modern Input Style
                 className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
                 placeholder="you@example.com"
               />
@@ -100,10 +119,28 @@ function LoginPage() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                // Modern Input Style: Border, rounded, focus ring
+                // Modern Input Style
                 className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
                 placeholder="••••••••"
               />
+            </div>
+
+            {/* Role Select Field */}
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+                Role
+              </label>
+              <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                // Modern Select Style
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 bg-white cursor-pointer"
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
             </div>
           </div>
 
@@ -113,18 +150,18 @@ function LoginPage() {
             // Modern Button Style: Primary color, strong hover effect, full width
             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out transform hover:scale-[1.01]"
           >
-            Log in
+            Sign up
           </button>
 
-          {/* Sign Up Link */}
+          {/* Login Link */}
           <p className="mt-6 text-sm text-center text-gray-600">
-            Don&apos;t have an account?{" "}
+            Already have an account?{" "}
             <a
-              href="/signup"
+              href="/login"
               // Link Style: Primary color, hover underline
               className="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150"
             >
-              Sign up
+              Log in
             </a>
           </p>
         </form>
@@ -133,4 +170,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default SignupPage;

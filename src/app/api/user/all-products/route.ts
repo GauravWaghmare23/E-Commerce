@@ -24,7 +24,8 @@ export async function GET(request : NextRequest){
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        if (user.role !== "user") {
+        // Allow both user and admin roles to fetch products
+        if (user.role !== "user" && user.role !== "admin") {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 

@@ -36,7 +36,8 @@ export async function GET(
     }
 
 
-    if (user.role !== "user") {
+    // Allow both user and admin roles to fetch individual products
+    if (user.role !== "user" && user.role !== "admin") {
 
       return NextResponse.json({ message: "Forbidden: Access denied" }, { status: 403 });
 

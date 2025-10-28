@@ -1,0 +1,4 @@
+- [x] Create src/types/globals.d.ts with CSS module declaration
+- [x] Update tsconfig.json to include src/types/**/*.d.ts
+- [x] Create tailwind.config.js with content paths
+- [ ] Restart dev server to apply changes
