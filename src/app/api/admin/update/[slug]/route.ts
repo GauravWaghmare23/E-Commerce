@@ -17,18 +17,24 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ slu
     const token = request.cookies.get("token")?.value;
 
     if (!token) {
+
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as { _id: string };
 
+
     const user = await userModel.findById(decodedToken._id);
 
     if (!user || user.role !== "admin") {
+
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
     }
 
     const { slug } = await context.params;
+    
     const formData = await request.formData();
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;

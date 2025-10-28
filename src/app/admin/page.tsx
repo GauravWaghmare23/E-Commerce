@@ -18,12 +18,12 @@ interface Product {
   imageUrl?: string;
 }
 
-// --- Product Card Component for Dashboard ---
+
 const DashboardProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 flex flex-col overflow-hidden">
       
-      {/* Image Section */}
+      
       <div className="relative w-full h-48 bg-gray-100">
         {product.imageUrl ? (
           <Image
@@ -41,7 +41,7 @@ const DashboardProductCard = ({ product }: { product: Product }) => {
       </div>
 
       {/* Content Section */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col grow">
         <h2 className="text-lg font-semibold text-gray-900 mb-1 truncate">{product.name}</h2>
 
         <div className="text-sm text-gray-600 space-y-1 mb-3">
@@ -69,16 +69,16 @@ const DashboardProductCard = ({ product }: { product: Product }) => {
   );
 };
 
-// --- Main Admin Dashboard Component ---
+
 export default function AdminDashboard() {
   const { user, setUser } = useUser();
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // --- Auth Guard and Initial Fetch ---
+
   useEffect(() => {
-    // Auth Guard
+    
     if (!user) {
       router.push("/login");
       return;
@@ -87,11 +87,10 @@ export default function AdminDashboard() {
       router.push("/allProducts");
       return;
     }
-    // Only fetch if authorized
     fetchProducts();
   }, [user, router]);
 
-  // --- Fetch Products Function ---
+
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -99,26 +98,23 @@ export default function AdminDashboard() {
       setProducts(res.data.products);
     } catch (error) {
       console.error("Error fetching products:", error);
-      // Optionally show a notification/alert here
     } finally {
       setLoading(false);
     }
   };
 
-  // --- Logout Handler ---
+
   const handleLogout = async () => {
     try {
       await axios.post("/api/user/logout", {}, { withCredentials: true });
       setUser(null);
-      // localStorage.removeItem("token"); // Assuming token is handled by http-only cookie
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
-      // Optionally show a notification/alert here
     }
   };
 
-  // --- UI: Loading State ---
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -128,7 +124,7 @@ export default function AdminDashboard() {
     );
   }
 
-  // --- UI: Main Dashboard ---
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
       <div className="max-w-7xl mx-auto">
@@ -145,7 +141,7 @@ export default function AdminDashboard() {
               className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-green-600 transition duration-150"
             >
               <PlusCircle className="w-5 h-5 mr-2" />
-              Add New Art
+              Add New Product
             </Link>
             <button
               onClick={handleLogout}

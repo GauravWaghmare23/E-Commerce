@@ -6,7 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import { Loader2, Trash2, Save, X, ArrowLeft, Image as ImageIcon } from "lucide-react";
 
-// --- Interface Definitions (Kept from original) ---
+
 interface Product {
   _id: string;
   name: string;
@@ -17,7 +17,7 @@ interface Product {
   imageUrl?: string;
 }
 
-// --- Main Component ---
+
 export default function AdminProductDetail() {
   const { user } = useUser();
   const router = useRouter();
@@ -38,7 +38,6 @@ export default function AdminProductDetail() {
     image: null as File | null,
   });
 
-  // --- Fetch Product Function ---
   const fetchProduct = useCallback(async () => {
     setLoading(true);
     setAlertMessage(null);
@@ -60,9 +59,8 @@ export default function AdminProductDetail() {
     }
   }, [slug]);
 
-  // --- Auth and Fetch Effect ---
+
   useEffect(() => {
-    // Auth Guard
     if (!user) {
       router.push("/login");
       return;
@@ -74,7 +72,7 @@ export default function AdminProductDetail() {
     fetchProduct();
   }, [user, router, slug, fetchProduct]);
 
-  // --- Handlers ---
+ 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -128,7 +126,7 @@ export default function AdminProductDetail() {
     }
   };
 
-  // --- UI: Loading State ---
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -138,7 +136,7 @@ export default function AdminProductDetail() {
     );
   }
 
-  // --- UI: Not Found State ---
+  
   if (!product) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">
@@ -155,14 +153,14 @@ export default function AdminProductDetail() {
     );
   }
 
-  // --- UI: Main Content ---
+  
   const categories = ["Painting", "Sculpture", "Photography", "Digital Art", "Prints", "Other"];
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6 md:p-10">
 
-        {/* Header and Back Button */}
+        
         <div className="flex justify-between items-center mb-8 border-b pb-4">
           <h1 className="text-3xl font-bold text-gray-900">
             Manage Product: <span className="text-indigo-600">{product.name}</span>
@@ -176,7 +174,7 @@ export default function AdminProductDetail() {
           </button>
         </div>
 
-        {/* Alert Message */}
+        
         {alertMessage && (
           <div className={`p-4 mb-6 rounded-lg font-medium ${
             alertMessage.type === 'success' ? 'bg-green-100 text-green-700 border border-green-300' : 'bg-red-100 text-red-700 border border-red-300'
@@ -185,10 +183,10 @@ export default function AdminProductDetail() {
           </div>
         )}
 
-        {/* Product Details and Update Form */}
+        
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           
-          {/* Current Image Preview */}
+          
           <div className="lg:order-2">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Current Image</h2>
             <div className="relative w-full h-64 bg-gray-200 rounded-lg overflow-hidden shadow-lg border border-gray-300">
@@ -212,10 +210,10 @@ export default function AdminProductDetail() {
             )}
           </div>
 
-          {/* Update Form */}
+          
           <form onSubmit={handleUpdate} className="space-y-6 lg:order-1">
             
-            {/* Name */}
+            
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
               <input
@@ -229,7 +227,7 @@ export default function AdminProductDetail() {
               />
             </div>
 
-            {/* Price */}
+            
             <div>
               <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
               <input
@@ -245,7 +243,7 @@ export default function AdminProductDetail() {
               />
             </div>
 
-            {/* Category */}
+            
             <div>
               <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
               <select
@@ -263,7 +261,7 @@ export default function AdminProductDetail() {
               </select>
             </div>
             
-            {/* Image Upload */}
+            
             <div>
               <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">Change Image</label>
               <input
@@ -276,7 +274,7 @@ export default function AdminProductDetail() {
               />
             </div>
             
-            {/* Description */}
+            
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
               <textarea
@@ -290,7 +288,7 @@ export default function AdminProductDetail() {
               />
             </div>
             
-            {/* Action Buttons */}
+            
             <div className="flex flex-col space-y-4 pt-4 border-t border-gray-200">
               <button
                 type="submit"

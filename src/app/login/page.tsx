@@ -13,7 +13,6 @@ function LoginPage() {
   const { setUser, user } = useUser();
   const router = useRouter();
 
-  // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
       if (user.role === "admin") {
@@ -24,13 +23,11 @@ function LoginPage() {
     }
   }, [user, router]);
 
-  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission and login
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -43,7 +40,6 @@ function LoginPage() {
       setUser(user);
       localStorage.setItem("token", token);
 
-      // Redirect after successful login
       if (user.role === "admin") {
         router.push("/admin");
       } else {
@@ -51,7 +47,6 @@ function LoginPage() {
       }
     } catch (error) {
       console.error("Login error:", error);
-      // NOTE: In a real app, you should display an error message to the user here.
     }
   };
 
@@ -60,17 +55,13 @@ function LoginPage() {
       <div className="w-full max-w-sm">
         <form
           onSubmit={handleSubmit}
-          // Modern Card Style: White background, rounded corners, subtle shadow
           className="bg-white p-8 rounded-xl shadow-2xl space-y-6 transform transition duration-500 hover:shadow-3xl"
         >
-          {/* Header */}
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-6">
             Sign In
           </h2>
 
-          {/* Input Fields */}
           <div className="space-y-4">
-            {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email Address
@@ -82,13 +73,11 @@ function LoginPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                // Modern Input Style: Border, rounded, focus ring
                 className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
                 placeholder="you@example.com"
               />
             </div>
 
-            {/* Password Field */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                 Password
@@ -107,7 +96,6 @@ function LoginPage() {
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             // Modern Button Style: Primary color, strong hover effect, full width
@@ -116,12 +104,10 @@ function LoginPage() {
             Log in
           </button>
 
-          {/* Sign Up Link */}
           <p className="mt-6 text-sm text-center text-gray-600">
             Don&apos;t have an account?{" "}
             <a
               href="/signup"
-              // Link Style: Primary color, hover underline
               className="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150"
             >
               Sign up

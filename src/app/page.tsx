@@ -24,10 +24,10 @@ export default function Home() {
     <div className="min-h-screen sketchbook-bg flex items-center justify-center">
       <div className="sketch-card p-8 text-center float-animation">
         <h1 className="text-4xl font-bold gradient-text sketch-text mb-4">
-          Welcome to ArtEcommerce
+          Welcome to E-Commerce
         </h1>
         <p className="text-lg text-gray-700 sketch-text">
-          Your creative shopping destination
+          Your one & only shopping destination
         </p>
         <div className="mt-6">
           <div className="animate-pulse">

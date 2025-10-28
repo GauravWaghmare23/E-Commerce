@@ -20,10 +20,9 @@ export default function AddProductPage() {
     image: null as File | null,
   });
 
-  // Common categories list
   const categories = ["Electronics", "Mobiles", "Home", "Kitchen", "Faishon"];
 
-  // --- Auth Guard Effect ---
+
   useEffect(() => {
     if (!user) {
       router.push("/login");
@@ -35,7 +34,7 @@ export default function AddProductPage() {
     }
   }, [user, router]);
 
-  // --- Handlers ---
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -49,9 +48,9 @@ export default function AddProductPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAdding(true);
-    setAlertMessage(null); // Clear previous alerts
+    setAlertMessage(null); 
 
-    // Simple validation
+
     if (!formData.image) {
       setAlertMessage({ type: 'error', message: "Please select an image for the product." });
       setAdding(false);
@@ -69,9 +68,7 @@ export default function AddProductPage() {
       await axios.post("/api/admin/add", data, { withCredentials: true });
 
       setAlertMessage({ type: 'success', message: "Product added successfully! Redirecting..." });
-      // Reset form after successful submission
       setFormData({ name: "", description: "", price: "", category: "", image: null });
-      // Redirect after a short delay to show success message
       setTimeout(() => router.push("/admin"), 1500);
     } catch (error) {
       console.error("Error adding product:", error);
@@ -81,16 +78,14 @@ export default function AddProductPage() {
     }
   };
 
-  // --- UI: Main Content ---
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
       <div className="max-w-xl mx-auto bg-white rounded-xl shadow-2xl p-6 md:p-10">
 
-        {/* Header and Back Button */}
         <div className="flex justify-between items-center mb-8 border-b pb-4">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
             <PlusCircle className="w-7 h-7 mr-3 text-indigo-600" />
-            Add New Art Piece
+            Add New Product
           </h1>
           <Link
             href="/admin"
@@ -101,7 +96,7 @@ export default function AddProductPage() {
           </Link>
         </div>
 
-        {/* Alert Message */}
+        
         {alertMessage && (
           <div className={`p-4 mb-6 rounded-lg font-medium flex items-center ${
             alertMessage.type === 'success' ? 'bg-green-100 text-green-700 border border-green-300' : 'bg-red-100 text-red-700 border border-red-300'
@@ -111,10 +106,10 @@ export default function AddProductPage() {
           </div>
         )}
 
-        {/* Add Product Form */}
+        
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* Name */}
+          
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Title / Name</label>
             <input
@@ -129,7 +124,7 @@ export default function AddProductPage() {
             />
           </div>
 
-          {/* Price */}
+          
           <div>
             <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
             <input
@@ -146,7 +141,7 @@ export default function AddProductPage() {
             />
           </div>
 
-          {/* Category */}
+          
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
             <select
@@ -157,14 +152,14 @@ export default function AddProductPage() {
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white appearance-none"
             >
-              <option value="" disabled>Select the type of art</option>
+              <option value="" disabled>Select the type of product</option>
               {categories.map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
             </select>
           </div>
           
-          {/* Description */}
+          
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea
@@ -179,7 +174,7 @@ export default function AddProductPage() {
             />
           </div>
 
-          {/* Image Upload */}
+         
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">Product Image (Required)</label>
             <input
@@ -196,7 +191,7 @@ export default function AddProductPage() {
             )}
           </div>
 
-          {/* Submit Button */}
+          
           <div className="pt-4">
             <button
               type="submit"
