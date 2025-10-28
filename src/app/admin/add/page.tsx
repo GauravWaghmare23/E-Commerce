@@ -21,7 +21,7 @@ export default function AddProductPage() {
   });
 
   // Common categories list
-  const categories = ["Painting", "Sculpture", "Photography", "Digital Art", "Prints", "Other"];
+  const categories = ["Electronics", "Mobiles", "Home", "Kitchen", "Faishon"];
 
   // --- Auth Guard Effect ---
   useEffect(() => {

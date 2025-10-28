@@ -20,50 +20,53 @@ interface Product {
 
 // --- Product Card Component for Dashboard ---
 const DashboardProductCard = ({ product }: { product: Product }) => {
-    return (
-        <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100 flex grow h-full">
-            <div className="relative w-full h-48 bg-gray-200">
-                {product.imageUrl ? (
-                    <Image
-                        src={product.imageUrl}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                ) : (
-                    <div className="flex items-center justify-center h-full text-gray-500">
-                        <Settings className="w-8 h-8" />
-                    </div>
-                )}
-            </div>
-            
-            <div className="p-4 flex-grow flex flex-col">
-                <h2 className="text-xl font-bold text-gray-900 truncate mb-2">{product.name}</h2>
-                
-                <div className="space-y-1 text-sm text-gray-600 mb-3">
-                    <p className="flex items-center">
-                        <DollarSign className="w-4 h-4 mr-1 text-green-600" />
-                        Price: <span className="font-semibold ml-1">₹{product.price.toLocaleString('en-IN')}</span>
-                    </p>
-                    <p className="flex items-center">
-                        <Tag className="w-4 h-4 mr-1 text-indigo-600" />
-                        Category: <span className="font-medium ml-1">{product.category}</span>
-                    </p>
-                </div>
-                
-                <p className="text-gray-500 text-sm line-clamp-2 mb-4">{product.description}</p>
-                
-                <Link
-                    href={`/admin/${product.slug}`}
-                    className="mt-auto flex items-center justify-center w-full bg-indigo-500 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-indigo-600 transition duration-150"
-                >
-                    <Edit className="w-4 h-4 mr-2" />
-                    Manage Product
-                </Link>
-            </div>
+  return (
+    <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 flex flex-col overflow-hidden">
+      
+      {/* Image Section */}
+      <div className="relative w-full h-48 bg-gray-100">
+        {product.imageUrl ? (
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-400">
+            <Settings className="w-8 h-8" />
+          </div>
+        )}
+      </div>
+
+      {/* Content Section */}
+      <div className="p-4 flex flex-col flex-grow">
+        <h2 className="text-lg font-semibold text-gray-900 mb-1 truncate">{product.name}</h2>
+
+        <div className="text-sm text-gray-600 space-y-1 mb-3">
+          <p className="flex items-center">
+            <DollarSign className="w-4 h-4 mr-1 text-green-600" />
+            <span className="font-medium">₹{product.price.toLocaleString('en-IN')}</span>
+          </p>
+          <p className="flex items-center">
+            <Tag className="w-4 h-4 mr-1 text-indigo-600" />
+            <span className="font-medium">{product.category}</span>
+          </p>
         </div>
-    );
+
+        <p className="text-gray-500 text-sm line-clamp-2 mb-4">{product.description}</p>
+
+        <Link
+          href={`/admin/${product.slug}`}
+          className="mt-auto inline-flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
+        >
+          <Edit className="w-4 h-4 mr-2" />
+          Manage Product
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 // --- Main Admin Dashboard Component ---
